@@ -44,3 +44,11 @@ jobs:
       - run:
           name: Deploy to Vercel
           command: vercel --prod --confirm
+
+# Orchestrate jobs using workflows
+# Workflows define the order in which jobs run
+workflows:
+  version: 2
+  build-and-deploy-workflow:
+    jobs:
+      - build-and-deploy          
