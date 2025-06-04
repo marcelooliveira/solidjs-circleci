@@ -31,16 +31,16 @@ jobs:
           name: Build SolidJS App
           command: npm run build # Or yarn build
 
-      # Add a placeholder for deployment for now.
-      # We'll fill this in with Vercel CLI commands in a later step.
+      # Install Vercel CLI globally
       - run:
-          name: Placeholder for Vercel Deployment
-          command: echo "Deployment step to be added later..."
+          name: Install Vercel CLI
+          command: npm install -g vercel@latest # Use @latest to ensure you get the newest version
 
-# Orchestrate jobs using workflows
-# Workflows define the order in which jobs run
-workflows:
-  version: 2
-  build-and-deploy-workflow:
-    jobs:
-      - build-and-deploy
+      # Deploy to Vercel
+      # The VERCEL_TOKEN environment variable is automatically picked up by the Vercel CLI
+      # --prod: deploys to the production environment (your main domain)
+      # --confirm: automatically confirms the deployment without a prompt
+      # Note: Vercel automatically detects the build output directory (e.g., 'dist' for SolidJS)
+      - run:
+          name: Deploy to Vercel
+          command: vercel --prod --confirm
