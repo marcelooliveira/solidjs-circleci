@@ -30,7 +30,10 @@ jobs:
 
       - run:
           name: Build SolidJS App
-          command: npm run build
+          command: |
+            cd my-app
+            ls
+            npm run build
 
       - run:
           name: Install Vercel CLI
