@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        app: './index.html',
+        app: './indexxxxxx.html',
       },
     },
     target: 'esnext',
