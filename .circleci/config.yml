@@ -40,8 +40,13 @@ jobs:
           command: npm install vercel@latest --save-dev
 
       - run:
-          name: Deploy Prebuilt App to Vercel
+          name: Build Vercel Output Locally
+          command: npx vercel build
+
+      - run:
+          name: Deploy Prebuilt App
           command: npx vercel deploy --prebuilt --prod --yes --token=$VERCEL_TOKEN
+
 
 workflows:
   deploy:
