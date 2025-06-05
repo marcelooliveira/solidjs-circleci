@@ -24,7 +24,9 @@ jobs:
 
       - run:
           name: Print Current Directory
-          command: ls
+          command: |
+            cd my-app
+            ls
 
       - run:
           name: Build SolidJS App
