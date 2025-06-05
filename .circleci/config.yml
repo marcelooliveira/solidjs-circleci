@@ -36,13 +36,13 @@ jobs:
             npm run build
 
       - run:
-          name: Install Vercel CLI
-          command: npm install -g vercel@latest
+          name: Install Vercel CLI Locally
+          command: npm install vercel@latest --save-dev
 
       - run:
           name: Deploy to Vercel
-          command: >
-            vercel --prod --confirm --token=$VERCEL_TOKEN
+          command: npx vercel --prod --confirm --token=$VERCEL_TOKEN
+
 
 workflows:
   deploy:
