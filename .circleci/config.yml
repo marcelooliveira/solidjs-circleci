@@ -21,6 +21,9 @@ jobs:
       # This will checkout into ~/project/ and then the working_directory will change to ~/project/my-app
       - checkout
 
+      - run:
+          command: cd my-app
+
       # Install project dependencies
       - run:
           name: Install Dependencies
