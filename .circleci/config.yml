@@ -41,7 +41,7 @@ jobs:
 
       - run:
           name: Deploy to Vercel (let Vercel build)
-          command: 
+          command: |
             cd my-app
             ls
             npx vercel deploy --prod --yes --token=$VERCEL_TOKEN
