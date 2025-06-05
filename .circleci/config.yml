@@ -12,7 +12,8 @@ jobs:
       - image: cimg/node:20.11.0 # Or a more recent stable Node.js version
 
     # Set the working directory for all steps in this job
-    working_directory: ~/project/
+    # This assumes your SolidJS app is located in a subdirectory named 'my-app'
+    working_directory: ~/project/my-app
 
     # Steps are a list of commands executed in the job's environment
     steps:
