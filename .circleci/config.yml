@@ -40,9 +40,8 @@ jobs:
           command: npm install vercel@latest --save-dev
 
       - run:
-          name: Deploy to Vercel
-          command: npx vercel --prod --confirm --token=$VERCEL_TOKEN
-
+          name: Deploy Prebuilt App to Vercel
+          command: npx vercel deploy --prebuilt --prod --yes --token=$VERCEL_TOKEN
 
 workflows:
   deploy:
