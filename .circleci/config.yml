@@ -1,57 +1,47 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-# Define the jobs we want to run for this project
 jobs:
-  # This job will handle building and deploying our SolidJS app
   build-and-deploy:
-    # Specify the execution environment. We'll use a Node.js Docker image
-    # as SolidJS is a JavaScript framework.
     docker:
-      - image: cimg/node:20.11.0 # Or a more recent stable Node.js version
-
-    # Set the working directory for all steps in this job
-    # This assumes your SolidJS app is located in a subdirectory named 'my-app'
+      - image: cimg/node:20.11.0
     working_directory: ~/project/my-app
 
-    # Steps are a list of commands executed in the job's environment
     steps:
-      # Checkout the code from your GitHub repository into the working directory
-      # This will checkout into ~/project/ and then the working_directory will change to ~/project/my-app
       - checkout
 
-      - run:
-          command: cd my-app
+      # Restore npm cache for faster builds
+      - restore_cache:
+          keys:
+            - node-modules-{{ checksum "package-lock.json" }}
 
       # Install project dependencies
       - run:
           name: Install Dependencies
-          command: npm install # Or yarn install if you're using Yarn
+          command: npm install
 
-      # Build the SolidJS application for production
+      # Save dependencies to cache
+      - save_cache:
+          paths:
+            - node_modules
+          key: node-modules-{{ checksum "package-lock.json" }}
+
+      # Build the SolidJS project using Vite
       - run:
           name: Build SolidJS App
-          command: npm run build # Or yarn build
+          command: npm run build
 
-      # Install Vercel CLI globally
+      # Install Vercel CLI
       - run:
           name: Install Vercel CLI
-          command: npm install -g vercel@latest # Use @latest to ensure you get the newest version
+          command: npm install -g vercel@latest
 
-      # Deploy to Vercel
-      # The VERCEL_TOKEN environment variable is automatically picked up by the Vercel CLI
-      # --prod: deploys to the production environment (your main domain)
-      # --confirm: automatically confirms the deployment without a prompt
-      # Note: Vercel automatically detects the build output directory (e.g., 'dist' for SolidJS)
+      # Deploy to Vercel using token from environment variable
       - run:
           name: Deploy to Vercel
-          command: vercel --prod --confirm
+          command: >
+            vercel --prod --confirm --token=$VERCEL_TOKEN
 
-# Orchestrate jobs using workflows
-# Workflows define the order in which jobs run
 workflows:
-  version: 2
-  build-and-deploy-workflow:
+  deploy:
     jobs:
-      - build-and-deploy          
+      - build-and-deploy
