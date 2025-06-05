@@ -9,33 +9,31 @@ jobs:
     steps:
       - checkout
 
-      # Restore npm cache for faster builds
       - restore_cache:
           keys:
             - node-modules-{{ checksum "package-lock.json" }}
 
-      # Install project dependencies
       - run:
           name: Install Dependencies
           command: npm install
 
-      # Save dependencies to cache
       - save_cache:
           paths:
             - node_modules
           key: node-modules-{{ checksum "package-lock.json" }}
 
-      # Build the SolidJS project using Vite
+      - run:
+          name: Print Current Directory
+          command: pwd
+
       - run:
           name: Build SolidJS App
           command: npm run build
 
-      # Install Vercel CLI
       - run:
           name: Install Vercel CLI
           command: npm install -g vercel@latest
 
-      # Deploy to Vercel using token from environment variable
       - run:
           name: Deploy to Vercel
           command: >
